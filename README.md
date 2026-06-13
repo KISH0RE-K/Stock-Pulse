@@ -1,141 +1,128 @@
 # StockPulse 📈
-### AAPL Stock ETL & ML Prediction Dashboard
 
-An end-to-end fintech data pipeline that extracts real stock market data, transforms and stores it in a SQL database, analyzes it with interactive visualizations, and predicts tomorrow's price direction using Machine Learning.
+### End-to-End Stock Market ETL Pipeline & ML Prediction Dashboard
 
-Built as a portfolio project targeting **ETL / AI / ML** engineering roles.
+![Python](https://img.shields.io/badge/Python-3.11-blue?style=for-the-badge\&logo=python)
+![Docker](https://img.shields.io/badge/Docker-Containerized-2496ED?style=for-the-badge\&logo=docker)
+![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-FF4B4B?style=for-the-badge\&logo=streamlit)
+![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=for-the-badge\&logo=sqlite)
+![Scikit-Learn](https://img.shields.io/badge/Scikit--Learn-ML-F7931E?style=for-the-badge\&logo=scikit-learn)
 
----
-
-## 🚀 Live Demo
-
-> Run locally in under 2 minutes — see setup below.
-
----
-
-## 🧠 What It Does
-
-| Stage | What Happens |
-|-------|-------------|
-| **Extract** | Pulls AAPL daily stock data from yfinance API for full year 2025 |
-| **Transform** | Cleans data, engineers features — daily returns, moving averages, price swings |
-| **Load** | Stores cleaned data into a SQLite database |
-| **Analyze** | Runs SQL queries and renders interactive Plotly charts |
-| **Predict** | Random Forest model predicts if tomorrow's price goes UP or DOWN |
+An end-to-end data engineering and machine learning project that extracts real stock market data, transforms it through an ETL pipeline, stores it in a SQL database, visualizes key business metrics, and predicts next-day stock price movement using machine learning.
 
 ---
 
-## 📊 Dashboard Sections
+## 🏗️ Architecture
 
-- **ETL Summary** — Total rows, avg price, highest and lowest price as metric cards
-- **Price Charts** — Closing price over time, monthly averages, daily return distribution
-- **SQL Tables** — Live queries direct from the database rendered as interactive tables
-- **ML Prediction** — Tomorrow's direction with confidence %, confusion matrix, feature importance
-- **Raw Data** — Full scrollable and searchable cleaned dataframe
-
----
-
-## ⚙️ Tech Stack
-
-![Python](https://img.shields.io/badge/Python-3.11-blue?style=flat&logo=python)
-![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red?style=flat&logo=streamlit)
-![SQLite](https://img.shields.io/badge/SQLite-Database-lightblue?style=flat&logo=sqlite)
-![scikit-learn](https://img.shields.io/badge/Scikit--Learn-ML-orange?style=flat&logo=scikit-learn)
-![Plotly](https://img.shields.io/badge/Plotly-Charts-darkblue?style=flat&logo=plotly)
-
-| Layer | Tools |
-|-------|-------|
-| Data Extraction | yfinance, pandas |
-| Transformation | pandas, feature engineering |
-| Storage | SQLite, sqlite3 |
-| Visualization | Plotly, Streamlit |
-| ML Model | scikit-learn RandomForestClassifier |
+yfinance API
+↓
+Extract
+↓
+Transform (Feature Engineering)
+↓
+SQLite Data Warehouse
+↓
+SQL Analytics
+↓
+Plotly Visualizations
+↓
+Random Forest Model
+↓
+Streamlit Dashboard
 
 ---
 
-## 📁 Project Structure
+## 🐳 Run with Docker
 
-```
-stock-etl-project/
-├── data/raw/           ← raw CSV from yfinance
-├── database/           ← stocks.db SQLite file
-├── etl/
-│   ├── extract.py
-│   ├── transform.py
-│   └── load.py
-├── model/
-│   └── predict.py
-├── visuals/
-│   └── charts.py
-├── notebooks/
-│   └── analysis.ipynb
-├── app.py              ← Streamlit dashboard
-├── requirements.txt
-└── README.md
-```
-
----
-
-## 🔧 Setup & Run
+### Build Image
 
 ```bash
-# 1. Clone the repo
-git clone https://github.com/yourusername/stockpulse.git
-cd stockpulse
+docker build -t stockpulse .
+```
 
-# 2. Create virtual environment
+### Run Container
+
+```bash
+docker run -p 8501:8501 stockpulse
+```
+
+### Open Dashboard
+
+```text
+http://localhost:8501
+```
+
+No local Python installation required.
+
+---
+
+## ⚡ Quick Start (Without Docker)
+
+```bash
+git clone https://github.com/KISH0RE-K/Stock-Pulse.git
+
+cd Stock-Pulse
+
 python -m venv venv
 
-# 3. Activate it
-venv\Scripts\activate        # Windows
-source venv/bin/activate     # Mac/Linux
+venv\Scripts\activate
 
-# 4. Install dependencies
 pip install -r requirements.txt
 
-# 5. Launch the dashboard
 python -m streamlit run app.py
 ```
 
-> The app auto-runs the ETL pipeline on first launch if no database is found.
+---
+
+## 📊 ETL Pipeline Metrics
+
+| Metric                 | Value         |
+| ---------------------- | ------------- |
+| Trading Days Processed | 252           |
+| Raw Features Extracted | 7             |
+| Engineered Features    | 12            |
+| Database Engine        | SQLite        |
+| ETL Framework          | Pandas        |
+| Visualization Library  | Plotly        |
+| ML Algorithm           | Random Forest |
 
 ---
 
-## 🤖 ML Model Details
+## 🎯 Key Data Engineering Concepts Demonstrated
 
-- **Algorithm:** Random Forest Classifier (150 trees, max depth 4)
-- **Features:** 5-day return lags, volume momentum, Close/SMA ratios
-- **Split:** Sequential 80/20 time-series split (no look-ahead bias)
-- **Test Accuracy:** 61.70%
-
----
-
-## 📈 Sample Results
-
-```
-Model Accuracy     →  61.70%
-Tomorrow Prediction →  UP  (50.14% confidence)
-
-Confusion Matrix:
-                Predicted Down   Predicted Up
-Actual Down          11               12
-Actual Up             6               18
-```
+* ETL Pipeline Design
+* Data Cleaning & Validation
+* Feature Engineering
+* SQL Database Integration
+* Interactive Analytics Dashboards
+* Time-Series Machine Learning
+* Docker Containerization
+* Reproducible Deployment
 
 ---
 
-## 💡 Key Learnings
+## 📈 Model Performance
 
-- yfinance returns MultiIndex columns in newer versions — handled with a flattening layer
-- Random splits cause temporal leakage in time-series ML — sequential splits are essential
-- Raw Close prices are non-stationary — engineered relative features (returns, ratios) generalize better
-
----
-
-## 📄 License
-
-MIT License — free to use and build on.
+| Metric              | Result                       |
+| ------------------- | ---------------------------- |
+| Accuracy            | 61.70%                       |
+| Train/Test Strategy | Sequential Time-Series Split |
+| Algorithm           | Random Forest Classifier     |
+| Trees               | 150                          |
+| Max Depth           | 4                            |
 
 ---
 
-<p align="center">Built with Python · Powered by yfinance · Visualized with Plotly · Deployed via Streamlit</p>
+## 🚀 Future Improvements
+
+* PostgreSQL Migration
+* PySpark ETL Pipeline
+* Airflow Orchestration
+* Multi-Stock Support
+* Real-Time Streaming Data
+* Cloud Deployment
+* Model Monitoring Dashboard
+
+---
+
+Built to demonstrate practical Data Engineering, ETL, Analytics, and Machine Learning workflows in a production-style environment.
